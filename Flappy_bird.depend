@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1740366004 source:d:\ltnc\flappy_bird\flappy_bird.cpp
+	<SDL.h>
+	<stdio.h>
+	<stdbool.h>
+	<stdlib.h>
+	<time.h>
+
