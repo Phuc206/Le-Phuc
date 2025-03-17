@@ -1,8 +1,26 @@
 # depslib dependency file v1.0
-1740366004 source:d:\ltnc\flappy_bird\flappy_bird.cpp
+1742232775 source:d:\ltnc\flappy_bird\flappy_bird.cpp
 	<SDL.h>
 	<stdio.h>
 	<stdbool.h>
 	<stdlib.h>
 	<time.h>
+	<SDL_image.h>
+	"jump.h"
+	"background.h"
+
+1742232114 source:d:\ltnc\flappy_bird\background.cpp
+	"background.h"
+	<SDL_image.h>
+	<stdio.h>
+
+1742230792 source:d:\ltnc\flappy_bird\jump.cpp
+	"jump.h"
+	<stdio.h>
+
+1742230792 d:\ltnc\flappy_bird\jump.h
+	<SDL_mixer.h>
+
+1742231764 d:\ltnc\flappy_bird\background.h
+	<SDL.h>
 
