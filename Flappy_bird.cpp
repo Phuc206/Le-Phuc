@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include <SDL_mixer.h>
+#include <SDL_image.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -14,6 +16,7 @@
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+Mix_Chunk* jumpSound = NULL;
 
 typedef struct {
     int x, y;
@@ -30,9 +33,20 @@ int score = 0;
 bool gameOver = false;
 
 void init() {
-    SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow("Flappy bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO); // Khoi tao SDL Video và SDL Audio
+    window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    // Khoi tao SDL_mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("SDL_mixer could not initialize! Error: %s\n", Mix_GetError());
+    }
+
+    // Load âm thanh khi nhay
+    jumpSound = Mix_LoadWAV("jump.wav");
+    if (!jumpSound) {
+        printf("Failed to load jump sound! Error: %s\n", Mix_GetError());
+    }
 
     // Khoi tao chim
     bird.x = SCREEN_WIDTH / 4;
@@ -48,6 +62,8 @@ void init() {
 }
 
 void close() {
+    Mix_FreeChunk(jumpSound); // Giai phóng bo nho âm thanh
+    Mix_CloseAudio(); // Dong SDL_mixer
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -56,7 +72,8 @@ void close() {
 void handleInput(SDL_Event* event) {
     if (event->type == SDL_KEYDOWN) {
         if (event->key.keysym.sym == SDLK_SPACE) {
-            bird.velocity = -JUMP_STRENGTH;
+            bird.velocity = -JUMP_STRENGTH; // Chim nhay len
+            Mix_PlayChannel(-1, jumpSound, 0); // Choi âm thanh nhay
         }
     }
 }

@@ -33,6 +33,9 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="Flappy_bird.cpp" />
+		<Unit filename="Flappy_bird.h" />
+		<Unit filename="background.cpp" />
+		<Unit filename="background.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
