@@ -150,7 +150,7 @@ void render() {
 int main(int argc, char* argv[]) {
     srand(time(NULL));
     init();
-
+    //test
     bool quit = false;
     SDL_Event event;
 
