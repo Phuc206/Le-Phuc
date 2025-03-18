@@ -34,12 +34,18 @@
 		</Compiler>
 		<Unit filename="Flappy_bird.cpp" />
 		<Unit filename="Flappy_bird.h" />
+		<Unit filename="audio.cpp" />
+		<Unit filename="audio.h" />
 		<Unit filename="background.cpp" />
 		<Unit filename="background.h" />
+		<Unit filename="bird.cpp" />
+		<Unit filename="bird.h" />
 		<Unit filename="jump.cpp" />
 		<Unit filename="jump.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="pipe.cpp" />
+		<Unit filename="pipe.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

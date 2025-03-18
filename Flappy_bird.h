@@ -1,6 +1,13 @@
 #ifndef FLAPPY_BIRD_H_INCLUDED
 #define FLAPPY_BIRD_H_INCLUDED
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+#define BIRD_SIZE 30
+#define PIPE_WIDTH 55
+#define PIPE_GAP 150
+#define PIPE_HEAD 1
+#define GRAVITY 1
+#define JUMP_STRENGTH 15
 
-
-#endif // FLAPPY_BIRD_H_INCLUDED
+#endif

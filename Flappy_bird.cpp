@@ -4,61 +4,53 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL_image.h>
+#include "Flappy_bird.h"
 #include "jump.h"
 #include "background.h"
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define BIRD_SIZE 30
-#define PIPE_WIDTH 60
-#define PIPE_GAP 150
-#define GRAVITY 1
-#define JUMP_STRENGTH 15
+#include "pipe.h"
+#include "bird.h"
+#include "audio.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
-typedef struct {
-    int x, y;
-    int velocity;
-} Bird;
-
-typedef struct {
-    int x, height;
-} Pipe;
-
 Bird bird;
-Pipe pipes[2];
-int score = 0;
 bool gameOver = false;
+int score = 0;
 
+// Khoi tao trò choi
 void init() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    IMG_Init(IMG_INIT_PNG);
+    Mix_Init(MIX_INIT_MP3);  // Khoi tao SDL_mixer cho MP3
+
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     initJumpSound();
     initBackground(renderer);
-
-    bird.x = SCREEN_WIDTH / 4;
-    bird.y = SCREEN_HEIGHT / 2;
-    bird.velocity = 0;
-
-    srand(time(NULL));
-    pipes[0].x = SCREEN_WIDTH;
-    pipes[0].height = rand() % (SCREEN_HEIGHT - PIPE_GAP);
-    pipes[1].x = SCREEN_WIDTH + SCREEN_WIDTH / 2;
-    pipes[1].height = rand() % (SCREEN_HEIGHT - PIPE_GAP);
+    initPipes(renderer);
+    initBird(renderer, &bird);  // Khoi tao chim tu bird.cpp
+    initAudio();        // Khoi tao âm thanh tu audio.cpp
+    playBackgroundMusic();  // Bat dau phát nhac nen
 }
 
+// Giai phóng tài nguyên
 void close() {
     freeJumpSound();
     freeBackground();
+    freePipes();
+    freeBird();  // Giai phóng tài nguyên chim
+    freeAudio();        // Giai phóng âm thanh tu audio.cpp
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
+    Mix_Quit();         // Thoát SDL_mixer
     SDL_Quit();
 }
 
+// Xu lý input (nhan phím)
 void handleInput(SDL_Event* event) {
     if (event->type == SDL_KEYDOWN) {
         if (event->key.keysym.sym == SDLK_SPACE) {
@@ -68,50 +60,28 @@ void handleInput(SDL_Event* event) {
     }
 }
 
+// Cap nhat trang thái trò choi
 void update() {
     if (gameOver) return;
 
     bird.velocity += GRAVITY;
     bird.y += bird.velocity;
 
-    if (bird.y + BIRD_SIZE > SCREEN_HEIGHT) {
+    if (bird.y + BIRD_HEIGHT > SCREEN_HEIGHT) {  // Thay BIRD_SIZE bang BIRD_HEIGHT
         gameOver = true;
         return;
     }
 
-    for (int i = 0; i < 2; i++) {
-        pipes[i].x -= 5;
-
-        if (pipes[i].x + PIPE_WIDTH < 0) {
-            pipes[i].x = SCREEN_WIDTH;
-            pipes[i].height = rand() % (SCREEN_HEIGHT - PIPE_GAP);
-            score++;
-        }
-
-        if (bird.x + BIRD_SIZE > pipes[i].x && bird.x < pipes[i].x + PIPE_WIDTH) {
-            if (bird.y < pipes[i].height || bird.y + BIRD_SIZE > pipes[i].height + PIPE_GAP) {
-                gameOver = true;
-                return;
-            }
-        }
-    }
+    updatePipes(&gameOver, &score, bird.x, bird.y, BIRD_HEIGHT);  // Thay BIRD_SIZE bang BIRD_HEIGHT
 }
 
+// Ve hình anh lên màn hình
 void render() {
     renderBackground(renderer);
+    renderBird(renderer, &bird);  // Ve chim tu bird.cpp
+    renderPipes(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-    SDL_Rect birdRect = { bird.x, bird.y, BIRD_SIZE, BIRD_SIZE };
-    SDL_RenderFillRect(renderer, &birdRect);
-
-    SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255);
-    for (int i = 0; i < 2; i++) {
-        SDL_Rect upperPipe = { pipes[i].x, 0, PIPE_WIDTH, pipes[i].height };
-        SDL_Rect lowerPipe = { pipes[i].x, pipes[i].height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - (pipes[i].height + PIPE_GAP) };
-        SDL_RenderFillRect(renderer, &upperPipe);
-        SDL_RenderFillRect(renderer, &lowerPipe);
-    }
-
+    // Hien thi diem so
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (int i = 0; i < score; i++) {
         SDL_Rect scoreRect = { 10 + i * 5, 10, 4, 4 };
@@ -127,6 +97,7 @@ void render() {
     SDL_RenderPresent(renderer);
 }
 
+// Hàm chính
 int main(int argc, char* argv[]) {
     srand(time(NULL));
     init();
