@@ -1,5 +1,5 @@
-#ifndef PIPE_H
-#define PIPE_H
+#ifndef PIPE_H_INCLUDE
+#define PIPE_H_INCLUDE
 
 #include <stdbool.h>
 #include <SDL.h>

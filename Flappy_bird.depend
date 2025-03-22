@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742297155 source:d:\ltnc\flappy_bird\flappy_bird.cpp
+1742613105 source:d:\ltnc\flappy_bird\flappy_bird.cpp
 	<SDL.h>
 	<stdio.h>
 	<stdbool.h>
@@ -34,9 +34,9 @@
 	<time.h>
 	<SDL_image.h>
 
-1742297784 d:\ltnc\flappy_bird\flappy_bird.h
+1742612619 d:\ltnc\flappy_bird\flappy_bird.h
 
-1742296307 d:\ltnc\flappy_bird\pipe.h
+1742613105 d:\ltnc\flappy_bird\pipe.h
 	<stdbool.h>
 	<SDL.h>
 	"Flappy_bird.h"

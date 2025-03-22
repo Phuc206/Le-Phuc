@@ -8,6 +8,6 @@
 #define PIPE_GAP 150
 #define PIPE_HEAD 1
 #define GRAVITY 1
-#define JUMP_STRENGTH 15
+#define JUMP_STRENGTH 10
 
 #endif

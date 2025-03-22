@@ -37,9 +37,9 @@ void init() {
 
 // Giai phóng tài nguyên
 void close() {
-    freeJumpSound();
-    freeBackground();
-    freePipes();
+    freeJumpSound(); // Giai phong am thanh jump
+    freeBackground(); // Giai phong background
+    freePipes(); // Giai phong tai nguyen ong nuoc
     freeBird();  // Giai phóng tài nguyên chim
     freeAudio();        // Giai phóng âm thanh tu audio.cpp
 
