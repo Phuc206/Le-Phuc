@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742613105 source:d:\ltnc\flappy_bird\flappy_bird.cpp
+1742834152 source:d:\ltnc\flappy_bird\flappy_bird.cpp
 	<SDL.h>
 	<stdio.h>
 	<stdbool.h>
@@ -12,6 +12,7 @@
 	"pipe.h"
 	"bird.h"
 	"audio.h"
+	"score.h"
 
 1742232114 source:d:\ltnc\flappy_bird\background.cpp
 	"background.h"
@@ -28,7 +29,7 @@
 1742231764 d:\ltnc\flappy_bird\background.h
 	<SDL.h>
 
-1742296244 source:d:\ltnc\flappy_bird\pipe.cpp
+1742831740 source:d:\ltnc\flappy_bird\pipe.cpp
 	"pipe.h"
 	<stdlib.h>
 	<time.h>
@@ -36,7 +37,7 @@
 
 1742612619 d:\ltnc\flappy_bird\flappy_bird.h
 
-1742613105 d:\ltnc\flappy_bird\pipe.h
+1742831871 d:\ltnc\flappy_bird\pipe.h
 	<stdbool.h>
 	<SDL.h>
 	"Flappy_bird.h"
@@ -55,4 +56,15 @@
 1742296802 source:d:\ltnc\flappy_bird\audio.cpp
 	"audio.h"
 	<iostream>
+
+1742833704 d:\ltnc\flappy_bird\score.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<string>
+
+1742834292 source:d:\ltnc\flappy_bird\score.cpp
+	"score.h"
+	<SDL_ttf.h>
+	<sstream>
+	"Flappy_bird.h"
 

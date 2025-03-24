@@ -44,25 +44,31 @@ void updatePipes(bool* gameOver, int* score, int birdX, int birdY, int birdSize)
     for (int i = 0; i < 2; i++) {
         pipes[i].x -= 5;
 
+        // Reset vị trí ống nước khi nó ra khỏi màn hình
         if (pipes[i].x + PIPE_WIDTH < 0) {
             pipes[i].x = SCREEN_WIDTH;
             pipes[i].height = minHeight + rand() % (maxHeight - minHeight + 1);
+            pipes[i].passed = false; // Reset trạng thái
+        }
+
+        // Cập nhật điểm khi chim vượt qua ống
+        if (birdX > pipes[i].x + PIPE_WIDTH && !pipes[i].passed) {
+            pipes[i].passed = true; // Đánh dấu đã qua ống
             (*score)++;
         }
 
-        int collisionBuffer = 5;
+        // Kiểm tra va chạm chính xác
+        int collisionBuffer = 3; // Điều chỉnh nhỏ hơn nếu cần
+        int bottomPipeY = pipes[i].height + PIPE_GAP;
+
+        bool hitTopPipe = (birdY + collisionBuffer < pipes[i].height);
+        bool hitBottomPipe = (birdY + birdSize - collisionBuffer > bottomPipeY);
+
         if (birdX + birdSize - collisionBuffer > pipes[i].x &&
-            birdX + collisionBuffer < pipes[i].x + PIPE_WIDTH) {
-
-            int bottomPipeY = pipes[i].height + PIPE_GAP;
-
-            bool hitTopPipe = (birdY + collisionBuffer < pipes[i].height);
-            bool hitBottomPipe = (birdY + birdSize - collisionBuffer > bottomPipeY);
-
-            if (hitTopPipe || hitBottomPipe) {
-                *gameOver = true;
-                return;
-            }
+            birdX + collisionBuffer < pipes[i].x + PIPE_WIDTH &&
+            (hitTopPipe || hitBottomPipe)) {
+            *gameOver = true;
+            return;
         }
     }
 }

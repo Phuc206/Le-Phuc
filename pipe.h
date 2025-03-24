@@ -6,8 +6,8 @@
 #include "Flappy_bird.h"
 
 typedef struct {
-    int x;       // Vi trí ngang cua ong
-    int height;  // Chieu cao cua ong trên
+    int x,height; // Vi trí ngang cua ong va chieu cao cua ong
+    bool passed; // Dung de kiem tra khi chim vuot qua ong
 } Pipe;
 
 void initPipes(SDL_Renderer* renderer);

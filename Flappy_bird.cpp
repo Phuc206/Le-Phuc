@@ -10,6 +10,7 @@
 #include "pipe.h"
 #include "bird.h"
 #include "audio.h"
+#include "score.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -17,6 +18,7 @@ SDL_Renderer* renderer = NULL;
 Bird bird;
 bool gameOver = false;
 int score = 0;
+Score gameScore;
 
 // Khoi tao trò choi
 void init() {
@@ -33,6 +35,7 @@ void init() {
     initBird(renderer, &bird);  // Khoi tao chim tu bird.cpp
     initAudio();        // Khoi tao âm thanh tu audio.cpp
     playBackgroundMusic();  // Bat dau phát nhac nen
+    gameScore.init(renderer);
 }
 
 // Giai phóng tài nguyên
@@ -42,6 +45,7 @@ void close() {
     freePipes(); // Giai phong tai nguyen ong nuoc
     freeBird();  // Giai phóng tài nguyên chim
     freeAudio();        // Giai phóng âm thanh tu audio.cpp
+    gameScore.free(); // Giai phong diem so
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -73,6 +77,7 @@ void update() {
     }
 
     updatePipes(&gameOver, &score, bird.x, bird.y, BIRD_HEIGHT);  // Thay BIRD_SIZE bang BIRD_HEIGHT
+    gameScore.update(score);
 }
 
 // Ve hình anh lên màn hình
@@ -80,19 +85,7 @@ void render() {
     renderBackground(renderer);
     renderBird(renderer, &bird);  // Ve chim tu bird.cpp
     renderPipes(renderer);
-
-    // Hien thi diem so
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    for (int i = 0; i < score; i++) {
-        SDL_Rect scoreRect = { 10 + i * 5, 10, 4, 4 };
-        SDL_RenderFillRect(renderer, &scoreRect);
-    }
-
-    if (gameOver) {
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_Rect gameOverRect = { SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 10, 100, 20 };
-        SDL_RenderFillRect(renderer, &gameOverRect);
-    }
+    gameScore.render(renderer, gameOver);
 
     SDL_RenderPresent(renderer);
 }

@@ -46,6 +46,10 @@
 		</Unit>
 		<Unit filename="pipe.cpp" />
 		<Unit filename="pipe.h" />
+		<Unit filename="score.cpp" />
+		<Unit filename="score.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
