@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <SDL_image.h>
+#include <math.h>
 
 Pipe pipes[2];
 SDL_Texture* pipeBodyTexture = NULL;  // Texture cho thân ong
@@ -44,21 +45,21 @@ void updatePipes(bool* gameOver, int* score, int birdX, int birdY, int birdSize)
     for (int i = 0; i < 2; i++) {
         pipes[i].x -= 5;
 
-        // Reset vị trí ống nước khi nó ra khỏi màn hình
+        // Reset vi trí ong nuoc khi nó ra khoi màn hình
         if (pipes[i].x + PIPE_WIDTH < 0) {
             pipes[i].x = SCREEN_WIDTH;
             pipes[i].height = minHeight + rand() % (maxHeight - minHeight + 1);
-            pipes[i].passed = false; // Reset trạng thái
+            pipes[i].passed = false; // Reset trang thái
         }
 
-        // Cập nhật điểm khi chim vượt qua ống
+        // Cap nhat diem khi chim vuot qua ong
         if (birdX > pipes[i].x + PIPE_WIDTH && !pipes[i].passed) {
-            pipes[i].passed = true; // Đánh dấu đã qua ống
+            pipes[i].passed = true; // dánh dau dã qua ống
             (*score)++;
         }
 
-        // Kiểm tra va chạm chính xác
-        int collisionBuffer = 3; // Điều chỉnh nhỏ hơn nếu cần
+        // Kiem tra va cham chính xác
+        int collisionBuffer = 6;
         int bottomPipeY = pipes[i].height + PIPE_GAP;
 
         bool hitTopPipe = (birdY + collisionBuffer < pipes[i].height);
