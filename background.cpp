@@ -7,7 +7,7 @@ SDL_Texture* backgroundTexture = NULL;
 void initBackground(SDL_Renderer* renderer) {
     SDL_Surface* loadedSurface = IMG_Load("background.png");
     if (!loadedSurface) {
-        printf("Failed to load background image! Error: %s\n", IMG_GetError());
+        printf("Loi tai anh nen: %s\n", IMG_GetError());
         return;
     }
     backgroundTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);

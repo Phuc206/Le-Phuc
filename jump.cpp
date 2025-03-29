@@ -12,7 +12,6 @@ void initJumpSound() {
     if (!jumpSound) {
         printf("Failed to load jump sound! Error: %s\n", Mix_GetError());
     } else {
-        // Giảm âm lượng xuống còn 32 (khoảng 25% mức tối đa)
         Mix_VolumeChunk(jumpSound, 32);
     }
 }

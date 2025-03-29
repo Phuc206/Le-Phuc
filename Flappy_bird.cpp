@@ -20,11 +20,10 @@ bool gameOver = false;
 int score = 0;
 Score gameScore;
 
-// Khoi tao trò choi
 void init() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     IMG_Init(IMG_INIT_PNG);
-    Mix_Init(MIX_INIT_MP3);  // Khoi tao SDL_mixer cho MP3
+    Mix_Init(MIX_INIT_MP3);
 
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -32,29 +31,27 @@ void init() {
     initJumpSound();
     initBackground(renderer);
     initPipes(renderer);
-    initBird(renderer, &bird);  // Khoi tao chim tu bird.cpp
-    initAudio();        // Khoi tao âm thanh tu audio.cpp
-    playBackgroundMusic();  // Bat dau phát nhac nen
+    initBird(renderer, &bird);
+    initAudio();
+    playBackgroundMusic();
     gameScore.init(renderer);
 }
 
-// Giai phóng tài nguyên
 void close() {
-    freeJumpSound(); // Giai phong am thanh jump
-    freeBackground(); // Giai phong background
-    freePipes(); // Giai phong tai nguyen ong nuoc
-    freeBird();  // Giai phóng tài nguyên chim
-    freeAudio();        // Giai phóng âm thanh tu audio.cpp
-    gameScore.free(); // Giai phong diem so
+    freeJumpSound();
+    freeBackground();
+    freePipes();
+    freeBird();
+    freeAudio();
+    gameScore.free();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
-    Mix_Quit();         // Thoát SDL_mixer
+    Mix_Quit();
     SDL_Quit();
 }
 
-// Xu lý input (nhan phím)
 void handleInput(SDL_Event* event) {
     if (event->type == SDL_KEYDOWN) {
         if (event->key.keysym.sym == SDLK_SPACE) {
@@ -64,33 +61,30 @@ void handleInput(SDL_Event* event) {
     }
 }
 
-// Cap nhat trang thái trò choi
 void update() {
     if (gameOver) return;
 
     bird.velocity += GRAVITY;
     bird.y += bird.velocity;
 
-    if (bird.y + BIRD_HEIGHT > SCREEN_HEIGHT) {  // Thay BIRD_SIZE bang BIRD_HEIGHT
+    if (bird.y + BIRD_HEIGHT > SCREEN_HEIGHT) {
         gameOver = true;
         return;
     }
 
-    updatePipes(&gameOver, &score, bird.x, bird.y, BIRD_HEIGHT);  // Thay BIRD_SIZE bang BIRD_HEIGHT
+    updatePipes(&gameOver, &score, bird.x, bird.y, BIRD_HEIGHT);
     gameScore.update(score);
 }
 
-// Ve hình anh lên màn hình
 void render() {
     renderBackground(renderer);
-    renderBird(renderer, &bird);  // Ve chim tu bird.cpp
+    renderBird(renderer, &bird);
     renderPipes(renderer);
     gameScore.render(renderer, gameOver);
 
     SDL_RenderPresent(renderer);
 }
 
-// Hàm chính
 int main(int argc, char* argv[]) {
     srand(time(NULL));
     init();

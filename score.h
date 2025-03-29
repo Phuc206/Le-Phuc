@@ -7,27 +7,25 @@
 
 class Score {
 public:
-    Score(); // Constructor
-    ~Score(); // Destructor de giai phóng tài nguyên
-    void init(SDL_Renderer* renderer); // Khoi tao he thong hien thi diem so
-    void update(int newScore); // Cap nhat diem so moi
-    void render(SDL_Renderer* renderer, bool gameOver); // Hien thi diem so lên màn hình, thêm gameOver
-    void free(); // Giai phóng bo nho
-
+    Score();
+    ~Score();
+    void init(SDL_Renderer* renderer);
+    void update(int newScore);
+    void render(SDL_Renderer* renderer, bool gameOver);
+    void free();
 private:
-    int score; // Bien luu diem so hien tai
-    TTF_Font* font; // Font chu de hien thi diem so
-    SDL_Texture* texture; // Texture chua hình anh diem so
-    SDL_Rect scoreRect; // Kích thuoc và va trí cua diem so trên màn hình
-    SDL_Color color; // Màu cua chu diem so
-    SDL_Renderer* renderer; // Con tro tai SDL_Renderer de ve lên màn hình
+    int score;
+    TTF_Font* font;
+    SDL_Texture* texture;
+    SDL_Rect scoreRect;
+    SDL_Color color;
+    SDL_Renderer* renderer;
 
-    // Thêm biến cho Game Over
     SDL_Texture* gameOverTexture;
     SDL_Rect gameOverRect;
 
-    void updateTexture(); // Cap nhat texture khi diem so thay doi
-    void renderGameOver(SDL_Renderer* renderer); // Hien thi chữ "Game Over"
+    void updateTexture();
+    void renderGameOver(SDL_Renderer* renderer);
 };
 
-#endif // SCORE_H_INCLUDED
+#endif

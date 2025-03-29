@@ -7,4 +7,4 @@ void initJumpSound();
 void playJumpSound();
 void freeJumpSound();
 
-#endif // JUMP_H_INCLUDED
+#endif
