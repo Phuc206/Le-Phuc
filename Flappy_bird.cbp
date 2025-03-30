@@ -40,10 +40,14 @@
 		<Unit filename="background.h" />
 		<Unit filename="bird.cpp" />
 		<Unit filename="bird.h" />
+		<Unit filename="intro.cpp" />
+		<Unit filename="intro.h" />
 		<Unit filename="jump.cpp" />
 		<Unit filename="jump.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="pause.cpp" />
+		<Unit filename="pause.h" />
 		<Unit filename="pipe.cpp" />
 		<Unit filename="pipe.h" />
 		<Unit filename="score.cpp" />

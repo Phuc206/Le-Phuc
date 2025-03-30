@@ -11,9 +11,12 @@
 #include "bird.h"
 #include "audio.h"
 #include "score.h"
+#include "pause.h"
+#include "intro.h"
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+Pause pause;
 
 Bird bird;
 bool gameOver = false;
@@ -28,6 +31,7 @@ void init() {
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+    pause.init(renderer);
     initJumpSound();
     initBackground(renderer);
     initPipes(renderer);
@@ -47,12 +51,15 @@ void close() {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
     IMG_Quit();
     Mix_Quit();
     SDL_Quit();
 }
 
 void handleInput(SDL_Event* event) {
+    pause.handleInput(event); // Xử lý pause và mute
+
     if (event->type == SDL_KEYDOWN) {
         if (event->key.keysym.sym == SDLK_SPACE) {
             bird.velocity = -JUMP_STRENGTH;
@@ -62,7 +69,7 @@ void handleInput(SDL_Event* event) {
 }
 
 void update() {
-    if (gameOver) return;
+    if (gameOver || pause.isPaused()) return;
 
     bird.velocity += GRAVITY;
     bird.y += bird.velocity;
@@ -81,6 +88,7 @@ void render() {
     renderBird(renderer, &bird);
     renderPipes(renderer);
     gameScore.render(renderer, gameOver);
+    pause.render(renderer);
 
     SDL_RenderPresent(renderer);
 }
@@ -88,6 +96,11 @@ void render() {
 int main(int argc, char* argv[]) {
     srand(time(NULL));
     init();
+
+    Intro intro;
+    intro.init(renderer);
+    intro.show(renderer);
+    intro.free();
 
     bool quit = false;
     SDL_Event event;
