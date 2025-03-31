@@ -2,16 +2,20 @@
 #define BIRD_H_INCLUDED
 
 #include <SDL.h>
-#include <SDL_image.h>
 #include "Flappy_bird.h"
 
-typedef struct {
+#define BIRD_ANIMATION_FRAMES 3
+
+struct Bird {
+    SDL_Texture* texture[BIRD_ANIMATION_FRAMES];
     int x, y;
     int velocity;
-} Bird;
+    int currentFrame;
+    int frameTimer;
+};
 
 void initBird(SDL_Renderer* renderer, Bird* bird);
-void renderBird(SDL_Renderer* renderer, const Bird* bird);
-void freeBird();
+void renderBird(SDL_Renderer* renderer, Bird* bird);
+void freeBird(Bird* bird);
 
 #endif

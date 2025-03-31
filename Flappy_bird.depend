@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1743360325 source:d:\ltnc\flappy_bird\flappy_bird.cpp
+1743393618 source:d:\ltnc\flappy_bird\flappy_bird.cpp
 	<SDL.h>
 	<stdio.h>
 	<stdbool.h>
@@ -38,20 +38,19 @@
 	<SDL_image.h>
 	<math.h>
 
-1742934141 d:\ltnc\flappy_bird\flappy_bird.h
+1743392682 d:\ltnc\flappy_bird\flappy_bird.h
 
 1743263317 d:\ltnc\flappy_bird\pipe.h
 	<stdbool.h>
 	<SDL.h>
 	"Flappy_bird.h"
 
-1743261365 source:d:\ltnc\flappy_bird\bird.cpp
+1743391601 source:d:\ltnc\flappy_bird\bird.cpp
 	"bird.h"
-	"Flappy_bird.h"
-
-1743261228 d:\ltnc\flappy_bird\bird.h
-	<SDL.h>
 	<SDL_image.h>
+
+1743391601 d:\ltnc\flappy_bird\bird.h
+	<SDL.h>
 	"Flappy_bird.h"
 
 1743263369 d:\ltnc\flappy_bird\audio.h
@@ -61,23 +60,23 @@
 	"audio.h"
 	<iostream>
 
-1743263099 d:\ltnc\flappy_bird\score.h
+1743393652 d:\ltnc\flappy_bird\score.h
 	<SDL.h>
 	<SDL_ttf.h>
 	<string>
+	"Flappy_bird.h"
 
-1743263267 source:d:\ltnc\flappy_bird\score.cpp
+1743393743 source:d:\ltnc\flappy_bird\score.cpp
 	"score.h"
 	<SDL_ttf.h>
 	<sstream>
-	"Flappy_bird.h"
 
-1743360441 d:\ltnc\flappy_bird\pause.h
+1743389183 d:\ltnc\flappy_bird\pause.h
 	<SDL.h>
 	<SDL_ttf.h>
 	"Flappy_bird.h"
 
-1743360428 source:d:\ltnc\flappy_bird\pause.cpp
+1743390431 source:d:\ltnc\flappy_bird\pause.cpp
 	"pause.h"
 	<SDL_ttf.h>
 	<string>

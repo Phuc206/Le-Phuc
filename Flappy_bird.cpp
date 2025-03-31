@@ -45,7 +45,7 @@ void close() {
     freeJumpSound();
     freeBackground();
     freePipes();
-    freeBird();
+    freeBird(&bird);
     freeAudio();
     gameScore.free();
 
@@ -57,16 +57,17 @@ void close() {
     SDL_Quit();
 }
 
-void handleInput(SDL_Event* event) {
-    pause.handleInput(event); // Xử lý pause và mute
+void handleInput(SDL_Event* event, bool& quit) {
+    pause.handleInput(event, quit);
 
-    if (event->type == SDL_KEYDOWN) {
+    if (!pause.isPaused() && event->type == SDL_KEYDOWN) {
         if (event->key.keysym.sym == SDLK_SPACE) {
             bird.velocity = -JUMP_STRENGTH;
             playJumpSound();
         }
     }
 }
+
 
 void update() {
     if (gameOver || pause.isPaused()) return;
@@ -76,6 +77,7 @@ void update() {
 
     if (bird.y + BIRD_HEIGHT > SCREEN_HEIGHT) {
         gameOver = true;
+        gameScore.update(score);
         return;
     }
 
@@ -110,7 +112,7 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT) {
                 quit = true;
             }
-            handleInput(&event);
+            handleInput(&event,quit);
         }
 
         update();

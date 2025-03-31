@@ -1,9 +1,8 @@
 #include "score.h"
 #include <SDL_ttf.h>
 #include <sstream>
-#include "Flappy_bird.h"
 
-Score::Score() : score(0), font(nullptr), texture(nullptr), gameOverTexture(nullptr), renderer(nullptr) {}
+Score::Score() : score(0), font(nullptr), texture(nullptr), gameOverTexture(nullptr), finalScoreTexture(nullptr), renderer(nullptr) {}
 
 Score::~Score() {
     free();
@@ -40,6 +39,10 @@ void Score::free() {
         SDL_DestroyTexture(gameOverTexture);
         gameOverTexture = nullptr;
     }
+    if (finalScoreTexture) {
+        SDL_DestroyTexture(finalScoreTexture);
+        finalScoreTexture = nullptr;
+    }
     if (font) {
         TTF_CloseFont(font);
         font = nullptr;
@@ -66,14 +69,30 @@ void Score::updateTexture() {
 
 void Score::renderGameOver(SDL_Renderer* renderer) {
     if (!gameOverTexture) {
-        SDL_Surface* surface = TTF_RenderText_Solid(font, "Game Over", {255, 215, 0, 255}); // Mau vang
+        SDL_Surface* surface = TTF_RenderText_Solid(font, "GAME OVER", {255, 255, 255, 255});
         if (surface) {
             gameOverTexture = SDL_CreateTextureFromSurface(renderer, surface);
-            gameOverRect = {SCREEN_WIDTH / 2 - surface->w / 2, SCREEN_HEIGHT / 2 - surface->h / 2, surface->w, surface->h};
+            gameOverRect = {SCREEN_WIDTH / 2 - surface->w / 2, SCREEN_HEIGHT / 2 - 50, surface->w, surface->h};
             SDL_FreeSurface(surface);
         }
     }
+
+    if (!finalScoreTexture) {
+        std::stringstream ss;
+        ss << "Final Score: " << score;
+
+        SDL_Surface* surface = TTF_RenderText_Solid(font, ss.str().c_str(), {255, 215, 0, 255}); // Màu vàng
+        if (surface) {
+            finalScoreTexture = SDL_CreateTextureFromSurface(renderer, surface);
+            finalScoreRect = {SCREEN_WIDTH / 2 - surface->w / 2, SCREEN_HEIGHT / 2, surface->w, surface->h};
+            SDL_FreeSurface(surface);
+        }
+    }
+
     if (gameOverTexture) {
         SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
+    }
+    if (finalScoreTexture) {
+        SDL_RenderCopy(renderer, finalScoreTexture, NULL, &finalScoreRect);
     }
 }
